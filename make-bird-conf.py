@@ -4,7 +4,7 @@ from pprint import pprint
 
 from kubernetes.client import api_client
 # Configs can be set in Configuration class directly or using helper utility
-config.load_kube_config(config_file="kube.cfg")
+config.load_kube_config(config_file="/root/.kube/cconfig")
 
 if len(sys.argv) != 2:
     print("supply only the IP of haproxy lb")
