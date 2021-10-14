@@ -20,7 +20,7 @@ def print_filter(node):
         (node.name, node.cidr))
 
 v1 = client.CoreV1Api()
-customs = dynamic.DynamicClient(api_client.ApiClient(configuration=config.load_kube_config(config_file="kube.cfg")))
+customs = dynamic.DynamicClient(api_client.ApiClient(configuration=config.load_kube_config(config_file="/root/.kube/config")))
 
 nodes = v1.list_node()
 for node in nodes.items:
