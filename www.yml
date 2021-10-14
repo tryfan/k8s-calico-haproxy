@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ labels:
+   run: app2
+ name: app2
+spec:
+ replicas: 5
+ selector:
+   matchLabels:
+     run: app2
+ template:
+   metadata:
+     labels:
+       run: app2
+   spec:
+     containers:
+     - name: app2
+       image: jmalloc/echo-server
+       ports:
+       - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   run: app2
+ name: app2
+spec:
+ selector:
+   run: app2
+ ports:
+ - name: port-1
+   port: 80
+   protocol: TCP
+   targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: test-ingress
+ namespace: default
+spec:
+ tls:
+   - hosts:
+     - www.192.168.88.216.nip.io
+     secretName: www1tls
+ rules:
+ - host: www.192.168.88.216.nip.io
+   http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+         service:
+           name: app2
+           port:
+             number: 80
