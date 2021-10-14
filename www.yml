@@ -40,13 +40,31 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
- name: test-ingress
+ name: test-ingress-https
  namespace: default
 spec:
  tls:
    - hosts:
      - www.192.168.88.216.nip.io
      secretName: www1tls
+ rules:
+ - host: www.192.168.88.216.nip.io
+   http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+         service:
+           name: app2
+           port:
+             number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: test-ingress-http
+ namespace: default
+spec:
  rules:
  - host: www.192.168.88.216.nip.io
    http:
