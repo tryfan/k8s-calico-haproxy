@@ -29,14 +29,18 @@ Get systemd service file and copy
 ```
 wget https://raw.githubusercontent.com/haproxytechblog/ingress-controller-external-example/master/haproxy-ingress.service
 cp haproxy-ingress.service /etc/systemd/system/
-systemctl enable haproxy-ingress
-systemctl start haproxy-ingress
 ```
 
 Get kube config and copy to /root/.kube/config
 ```
 mkdir -p /root/.kube
 vi /root/.kube/config
+```
+
+Enable and start the ingress proxy
+```
+systemctl enable haproxy-ingress
+systemctl start haproxy-ingress
 ```
 
 Get and install bird routing daemon
@@ -100,4 +104,4 @@ birdc show protocols
 
 The `tlskey.yml` file contains a self signed key for demo purposes, just apply that into the default namespace.
 
-The `www.yml` file contains 5 replicas of the `jmalloc/echo-server` container.  On lines 48 and 51, replace the IP address in the DNS name with your haproxy ip address.  Once you apply this file, you should be able to reach both http://www.\<ip\>.nip.io and https://www.\<ip\>.nip.io
+The `www.yml` file contains 5 replicas of the `jmalloc/echo-server` container.  On lines 48, 51, and 69, replace the IP address in the DNS name with your haproxy ip address.  Once you apply this file, you should be able to reach both http://www.\<ip\>.nip.io and https://www.\<ip\>.nip.io
